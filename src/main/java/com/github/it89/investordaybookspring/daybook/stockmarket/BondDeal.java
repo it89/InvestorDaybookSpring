@@ -33,7 +33,7 @@ public class BondDeal extends Deal {
                 "pricePct=" + pricePct +
                 ", accumulatedCouponYield=" + accumulatedCouponYield +
                 ", security=" + security +
-                ", requestNumber='" + requestNumber + '\'' +
+                //", requestNumber='" + requestNumber + '\'' +
                 ", dealNumber='" + dealNumber + '\'' +
                 ", date=" + date +
                 ", time=" + time +

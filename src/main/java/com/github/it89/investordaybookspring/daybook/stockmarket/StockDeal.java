@@ -23,7 +23,7 @@ public class StockDeal extends Deal {
         return "StockDeal{" +
                 "price=" + price +
                 ", security=" + security +
-                ", requestNumber='" + requestNumber + '\'' +
+                //", requestNumber='" + requestNumber + '\'' +
                 ", dealNumber='" + dealNumber + '\'' +
                 ", date=" + date +
                 ", time=" + time +
