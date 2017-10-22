@@ -7,4 +7,5 @@ import java.util.List;
 public interface SecurityDAO {
     public void merge(SecurityEntity entity);
     public SecurityEntity getEntityByISIN(String isin);
+    public SecurityEntity getEntityByCodeGRN(String codeGRN);
 }

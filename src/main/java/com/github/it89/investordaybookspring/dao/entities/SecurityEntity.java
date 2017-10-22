@@ -8,21 +8,24 @@ import javax.persistence.*;
 @Entity
 @Table(name="security",
         uniqueConstraints = {@UniqueConstraint(columnNames={"isin"})},
-        indexes = { @Index(columnList = "isin", name = "idx_secutiry_isin")})
+        indexes = { @Index(columnList = "isin", name = "idx_secutiry_isin"),
+                @Index(columnList = "code_grn", name = "idx_secutiry_code_grn")})
 public class SecurityEntity {
     private long id;
     private String isin;
-    private String code;
+    private String ticker;
     private String caption;
     private SecurityType type;
+    private String codeGRN;
 
     public SecurityEntity(){};
 
     public SecurityEntity(Security security) {
         isin = security.getIsin();
-        code = security.getTicker();
+        ticker = security.getTicker();
         caption = security.getCaption();
         type = security.getType();
+        codeGRN = security.getCodeGRN();
     }
 
     @Id
@@ -47,12 +50,12 @@ public class SecurityEntity {
     }
 
     @Column(name = "ticker")
-    public String getCode() {
-        return code;
+    public String getTicker() {
+        return ticker;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
     @Column(name = "caption")
@@ -72,5 +75,18 @@ public class SecurityEntity {
 
     public void setType(SecurityType type) {
         this.type = type;
+    }
+
+    @Column(name = "code_grn")
+    public String getCodeGRN() {
+        return codeGRN;
+    }
+
+    public void setCodeGRN(String codeGRN) {
+        this.codeGRN = codeGRN;
+    }
+
+    public Security toSecurity() {
+        return new Security.Builder(isin, type, ticker, caption).codeGRN(codeGRN).build();
     }
 }

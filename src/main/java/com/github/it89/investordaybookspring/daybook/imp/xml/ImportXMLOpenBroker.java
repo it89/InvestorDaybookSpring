@@ -48,8 +48,13 @@ public class ImportXMLOpenBroker {
             } else {
                 throw new XPathExpressionException("Not valid XML");
             }
+            Node nodeCodeGRN = nodeMap.getNamedItem("security_grn_code");
+            String codeGRN = null;
+            if (nodeCodeGRN != null) {
+                codeGRN = nodeCodeGRN.getTextContent();
+            }
 
-            Security security = new Security.Builder(isin, securityType, ticker, caption).build();
+            Security security = new Security.Builder(isin, securityType, ticker, caption).codeGRN(codeGRN).build();
             security.save();
         }
     }
