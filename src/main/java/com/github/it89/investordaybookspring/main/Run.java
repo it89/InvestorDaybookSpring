@@ -1,16 +1,7 @@
 package com.github.it89.investordaybookspring.main;
 
-import com.github.it89.investordaybookspring.dao.entities.SecurityEntity;
-import com.github.it89.investordaybookspring.dao.entities.SomeTableEntity;
-import com.github.it89.investordaybookspring.dao.interfaces.SecurityDAO;
-import com.github.it89.investordaybookspring.dao.interfaces.SomeTableDAO;
 import com.github.it89.investordaybookspring.daybook.stockmarket.SecurityStock;
 import com.github.it89.investordaybookspring.daybook.stockmarket.SecurityType;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.security.Security;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class Run {
     public static void main(String[] args) {

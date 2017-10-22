@@ -24,7 +24,7 @@
         <property name="dataSource" ref="dataSource" />
         <!--<property name="annotatedClasses">
             <list>
-                <value>com.github.it89.investordaybookspring.dao.entities.SomeTableEntity</value>
+                <value>com.github.it89.investordaybookspring.dao.entities.SecurityEntity</value>
             </list>
         </property>-->
         <property name="packagesToScan" value="com.github.it89.investordaybookspring.dao.entities" />
@@ -36,11 +36,6 @@
                 <prop key="hibernate.hbm2ddl.auto">create</prop>
             </props>
         </property>
-    </bean>
-
-
-    <bean id="someTableDAO" class="com.github.it89.investordaybookspring.dao.impls.SomeTableDAOImpl">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 
     <bean id="SecurityDAO" class="com.github.it89.investordaybookspring.dao.impls.SecurityDAOImpl">
