@@ -32,23 +32,25 @@ public class ImportXMLOpenBroker {
         XPathExpression expr = xpath.compile("//spot_portfolio_security_params/item");
         NodeList nodes = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
 
-        /*for (int i = 0; i < nodes.getLength(); i++) {
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node n = nodes.item(i);
             NamedNodeMap nodeMap = n.getAttributes();
 
-            String securityType = nodeMap.getNamedItem("security_type").getTextContent();
+            String isin = nodeMap.getNamedItem("isin").getTextContent();
+            String textSecurityType = nodeMap.getNamedItem("security_type").getTextContent();
             String ticker = nodeMap.getNamedItem("ticker").getTextContent();
             String securityName = nodeMap.getNamedItem("security_name").getTextContent().trim();
+
             Security security;
-            if (securityType.equalsIgnoreCase("Акции") || securityType.equalsIgnoreCase("GDR")) {
-                security = new SecurityStock(ticker, securityName);
-            } else if (securityType.equalsIgnoreCase("Облигации")) {
-                security = new SecurityBond(ticker, securityName);
+            if (textSecurityType.equalsIgnoreCase("Акции") || textSecurityType.equalsIgnoreCase("GDR")) {
+                security = new SecurityStock(isin, SecurityType.STOCK, ticker, securityName);
+            } else if (textSecurityType.equalsIgnoreCase("Облигации")) {
+                security = new SecurityBond(isin, SecurityType.BOND, ticker, securityName);
             } else {
                 throw new XPathExpressionException("Not valid XML");
             }
-            security.registerNew();
-        }*/
+            security.save();
+        }
     }
 
     private void importMaidDeals(Document document) throws XPathExpressionException {
