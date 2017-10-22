@@ -10,7 +10,7 @@ public class SomeTableEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="code")
+    @Column(name="ticker")
     private int code;
 
     @Column(name="caption")
@@ -44,7 +44,7 @@ public class SomeTableEntity {
     public String toString() {
         return "SomeTableEntity{" +
                 "id=" + id +
-                ", code=" + code +
+                ", ticker=" + code +
                 ", caption='" + caption + '\'' +
                 '}';
     }

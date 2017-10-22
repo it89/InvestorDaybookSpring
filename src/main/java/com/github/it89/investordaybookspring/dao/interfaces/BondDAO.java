@@ -1,12 +1,11 @@
 package com.github.it89.investordaybookspring.dao.interfaces;
 
-import com.github.it89.investordaybookspring.daybook.stockmarket.Bond;
-import com.github.it89.investordaybookspring.daybook.stockmarket.Stock;
+import com.github.it89.investordaybookspring.daybook.stockmarket.SecurityBond;
 
 public interface BondDAO {
-    void register(Bond asset);
-    void remove(Bond asset);
-    boolean exists(Bond asset);
-    Bond getBondByCode(String code);
-    Bond getBondByCaption(String caption);
+    void register(SecurityBond asset);
+    void remove(SecurityBond asset);
+    boolean exists(SecurityBond asset);
+    SecurityBond getBondByCode(String code);
+    SecurityBond getBondByCaption(String caption);
 }

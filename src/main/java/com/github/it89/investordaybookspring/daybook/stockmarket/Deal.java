@@ -1,7 +1,5 @@
 package com.github.it89.investordaybookspring.daybook.stockmarket;
 
-import com.github.it89.investordaybookspring.daybook.interfaces.Security;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;

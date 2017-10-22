@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class StockDeal extends Deal {
     private BigDecimal price;
 
-    public StockDeal(Stock stock, String dealNumber) {
+    public StockDeal(SecurityStock stock, String dealNumber) {
         super(dealNumber);
         security = stock;
     }

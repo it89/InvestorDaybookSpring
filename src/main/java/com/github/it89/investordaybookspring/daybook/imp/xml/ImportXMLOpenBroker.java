@@ -1,6 +1,5 @@
 package com.github.it89.investordaybookspring.daybook.imp.xml;
 
-import com.github.it89.investordaybookspring.daybook.interfaces.Security;
 import com.github.it89.investordaybookspring.daybook.stockmarket.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -33,7 +32,7 @@ public class ImportXMLOpenBroker {
         XPathExpression expr = xpath.compile("//spot_portfolio_security_params/item");
         NodeList nodes = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
 
-        for (int i = 0; i < nodes.getLength(); i++) {
+        /*for (int i = 0; i < nodes.getLength(); i++) {
             Node n = nodes.item(i);
             NamedNodeMap nodeMap = n.getAttributes();
 
@@ -42,14 +41,14 @@ public class ImportXMLOpenBroker {
             String securityName = nodeMap.getNamedItem("security_name").getTextContent().trim();
             Security security;
             if (securityType.equalsIgnoreCase("Акции") || securityType.equalsIgnoreCase("GDR")) {
-                security = new Stock(ticker, securityName);
+                security = new SecurityStock(ticker, securityName);
             } else if (securityType.equalsIgnoreCase("Облигации")) {
-                security = new Bond(ticker, securityName);
+                security = new SecurityBond(ticker, securityName);
             } else {
                 throw new XPathExpressionException("Not valid XML");
             }
             security.registerNew();
-        }
+        }*/
     }
 
     private void importMaidDeals(Document document) throws XPathExpressionException {
@@ -57,15 +56,15 @@ public class ImportXMLOpenBroker {
         XPathExpression expr = xpath.compile("//spot_main_deals_conclusion/item");
         NodeList nodes = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
 
-        for (int i = 0; i < nodes.getLength(); i++) {
+        /*for (int i = 0; i < nodes.getLength(); i++) {
             Node n = nodes.item(i);
             NamedNodeMap nodeMap = n.getAttributes();
 
             String securityType = nodeMap.getNamedItem("security_name").getTextContent().trim();
-            Security security = Stock.getStockByCaption(securityType);
+            Security security = SecurityStock.getStockByCaption(securityType);
             if (security == null) {
                 // TODO: Лучше идентифизировать по коду, а не по тикуру или названию. Для этого нужно переделать Security
-                security = Bond.getBondByCaption(securityType);
+                security = SecurityBond.getBondByCaption(securityType);
                 if (security == null) {
                     throw new XPathExpressionException("Not valid XML");
                 }
@@ -73,14 +72,14 @@ public class ImportXMLOpenBroker {
 
             String dealNumber = nodeMap.getNamedItem("deal_no").getTextContent();
             Deal deal;
-            if (security instanceof Stock) {
-                deal = new StockDeal((Stock) security, dealNumber);
+            if (security instanceof SecurityStock) {
+                deal = new StockDeal((SecurityStock) security, dealNumber);
             } else {
-                deal = new BondDeal((Bond) security, dealNumber);
+                deal = new BondDeal((SecurityBond) security, dealNumber);
             }
 
 
 
-        }
+        }*/
     }
 }

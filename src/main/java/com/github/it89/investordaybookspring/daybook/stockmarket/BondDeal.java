@@ -6,7 +6,7 @@ public class BondDeal extends Deal {
     private BigDecimal pricePct;
     private BigDecimal accumulatedCouponYield;
 
-    public BondDeal(Bond bond, String dealNumber) {
+    public BondDeal(SecurityBond bond, String dealNumber) {
         super(dealNumber);
         security = bond;
     }
