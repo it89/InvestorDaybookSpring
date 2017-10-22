@@ -39,16 +39,17 @@ public class ImportXMLOpenBroker {
             String isin = nodeMap.getNamedItem("isin").getTextContent();
             String textSecurityType = nodeMap.getNamedItem("security_type").getTextContent();
             String ticker = nodeMap.getNamedItem("ticker").getTextContent();
-            String securityName = nodeMap.getNamedItem("security_name").getTextContent().trim();
-
-            Security security;
+            String caption = nodeMap.getNamedItem("security_name").getTextContent().trim();
+            SecurityType securityType;
             if (textSecurityType.equalsIgnoreCase("Акции") || textSecurityType.equalsIgnoreCase("GDR")) {
-                security = new SecurityStock(isin, SecurityType.STOCK, ticker, securityName);
+                securityType = SecurityType.STOCK;
             } else if (textSecurityType.equalsIgnoreCase("Облигации")) {
-                security = new SecurityBond(isin, SecurityType.BOND, ticker, securityName);
+                securityType = SecurityType.BOND;
             } else {
                 throw new XPathExpressionException("Not valid XML");
             }
+
+            Security security = new Security.Builder(isin, securityType, ticker, caption).build();
             security.save();
         }
     }
