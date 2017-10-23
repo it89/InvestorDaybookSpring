@@ -133,4 +133,13 @@ public abstract class Security {
         context.close();
         return security;
     }
+
+    public static Security findByCaption(String caption) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
+        SecurityDAO securityDAO = context.getBean(SecurityDAO.class);
+        SecurityEntity securityEntity = securityDAO.getEntityByCaption(caption);
+        Security security = securityEntity.toSecurity();
+        context.close();
+        return security;
+    }
 }

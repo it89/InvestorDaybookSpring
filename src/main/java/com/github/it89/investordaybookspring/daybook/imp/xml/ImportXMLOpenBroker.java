@@ -72,6 +72,7 @@ public class ImportXMLOpenBroker {
             Security security = SecurityStock.getStockByCaption(securityType);
             if (security == null) {
                 // TODO: Лучше идентифизировать по коду, а не по тикуру или названию. Для этого нужно переделать Security
+                // TODO: Уже добавили код GRN, но для GDR его нет и придется определять по наименованию
                 security = SecurityBond.getBondByCaption(securityType);
                 if (security == null) {
                     throw new XPathExpressionException("Not valid XML");

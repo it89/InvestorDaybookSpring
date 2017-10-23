@@ -76,4 +76,25 @@ public class SecurityDAOImpl implements SecurityDAO {
         session.close();
         return result;
     }
+
+    @Override
+    public SecurityEntity getEntityByCaption(String caption) {
+        SecurityEntity result;
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        Query query = session.createQuery("from SecurityEntity where caption = :caption").setString("caption", caption);
+        List<SecurityEntity> entityList = (List<SecurityEntity>) query.list();
+        if (entityList.isEmpty()) {
+            result = null;
+        } else if (entityList.size() == 1) {
+            result = entityList.get(0);
+        } else {
+            throw new IllegalStateException("Too many rows in Security with caption = " + caption);
+        }
+
+        tx.commit();
+        session.close();
+        return result;
+    }
 }
