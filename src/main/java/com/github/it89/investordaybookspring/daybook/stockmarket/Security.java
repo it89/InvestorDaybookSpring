@@ -3,6 +3,7 @@ package com.github.it89.investordaybookspring.daybook.stockmarket;
 
 import com.github.it89.investordaybookspring.dao.entities.SecurityEntity;
 import com.github.it89.investordaybookspring.dao.interfaces.SecurityDAO;
+import com.github.it89.investordaybookspring.main.Run;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -118,28 +119,22 @@ public abstract class Security {
     }
 
     public void save() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-        SecurityDAO securityDAO = context.getBean(SecurityDAO.class);
+        SecurityDAO securityDAO = Run.securityDAO;
         SecurityEntity securityEntity = new SecurityEntity(this);
         securityDAO.merge(securityEntity);
-        context.close();
     }
 
     public static Security findByCodeGRN(String codeGRN) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-        SecurityDAO securityDAO = context.getBean(SecurityDAO.class);
+        SecurityDAO securityDAO = Run.securityDAO;
         SecurityEntity securityEntity = securityDAO.getEntityByCodeGRN(codeGRN);
         Security security = securityEntity.toSecurity();
-        context.close();
         return security;
     }
 
     public static Security findByCaption(String caption) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-        SecurityDAO securityDAO = context.getBean(SecurityDAO.class);
+        SecurityDAO securityDAO = Run.securityDAO;
         SecurityEntity securityEntity = securityDAO.getEntityByCaption(caption);
         Security security = securityEntity.toSecurity();
-        context.close();
         return security;
     }
 }
