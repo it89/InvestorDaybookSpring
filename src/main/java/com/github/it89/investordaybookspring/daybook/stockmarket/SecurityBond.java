@@ -1,9 +1,10 @@
 package com.github.it89.investordaybookspring.daybook.stockmarket;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public final class SecurityBond extends Security {
-    private static final HashMap<String, SecurityBond> objects = new HashMap<>();
+    private static final Map<String, SecurityBond> objects = new HashMap<>();
 
     private SecurityBond(String isin, SecurityType type) {
         super(isin, type);

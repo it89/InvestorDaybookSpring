@@ -1,14 +1,25 @@
 package com.github.it89.investordaybookspring.daybook.stockmarket;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
-public class BondDeal extends Deal {
+public final class DealBond extends Deal {
+    private static final Map<String, DealBond> objects = new HashMap<>();
     private BigDecimal pricePct;
     private BigDecimal accumulatedCouponYield;
 
-    public BondDeal(SecurityBond bond, String dealNumber) {
+    private DealBond(String dealNumber, SecurityBond bond) {
         super(dealNumber);
         security = bond;
+    }
+
+    public static DealBond getInstance(String dealNumber, SecurityBond bond) {
+        if (objects.containsKey(dealNumber)) {
+            return objects.get(dealNumber);
+        } else {
+            return new DealBond(dealNumber, bond);
+        }
     }
 
     public BigDecimal getPricePct() {
@@ -29,7 +40,7 @@ public class BondDeal extends Deal {
 
     @Override
     public String toString() {
-        return "BondDeal{" +
+        return "DealBond{" +
                 "pricePct=" + pricePct +
                 ", accumulatedCouponYield=" + accumulatedCouponYield +
                 ", security=" + security +

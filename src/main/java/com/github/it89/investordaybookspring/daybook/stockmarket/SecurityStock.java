@@ -1,9 +1,10 @@
 package com.github.it89.investordaybookspring.daybook.stockmarket;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public final class SecurityStock extends Security {
-    private static final HashMap<String, SecurityStock> objects = new HashMap<>();
+    private static final Map<String, SecurityStock> objects = new HashMap<>();
 
     private SecurityStock(String isin, SecurityType type) {
         super(isin, type);
@@ -15,6 +16,5 @@ public final class SecurityStock extends Security {
         } else {
             return new SecurityStock(isin, SecurityType.STOCK);
         }
-
     }
 }

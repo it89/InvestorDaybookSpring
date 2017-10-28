@@ -82,9 +82,9 @@ public class ImportXMLOpenBroker {
             String dealNumber = nodeMap.getNamedItem("deal_no").getTextContent();
             Deal deal;
             if (security instanceof SecurityStock) {
-                deal = new StockDeal((SecurityStock) security, dealNumber);
+                deal = new DealStock((SecurityStock) security, dealNumber);
             } else {
-                deal = new BondDeal((SecurityBond) security, dealNumber);
+                deal = new DealBond((SecurityBond) security, dealNumber);
             }
 
 
