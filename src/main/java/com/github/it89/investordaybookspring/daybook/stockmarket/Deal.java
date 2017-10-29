@@ -2,13 +2,13 @@ package com.github.it89.investordaybookspring.daybook.stockmarket;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public abstract class Deal {
     protected Security security;
     protected final String dealNumber;
-    protected LocalDate date;
-    protected LocalTime time;
+    protected LocalDateTime dateTime;
     protected TradeOperation operation;
     protected long amount;
     protected BigDecimal volume;
@@ -17,8 +17,7 @@ public abstract class Deal {
     public static class Builder {
         private final Security security;
         private final String dealNumber;
-        private LocalDate date;
-        private LocalTime time;
+        private LocalDateTime dateTime;
         private TradeOperation operation;
         private long amount;
         private BigDecimal volume;
@@ -27,18 +26,13 @@ public abstract class Deal {
         private BigDecimal pricePct;
         private BigDecimal accumulatedCouponYield;
 
-        public Builder(Security security, String dealNumber) {
-            this.security = security;
+        public Builder(String dealNumber, Security security) {
             this.dealNumber = dealNumber;
+            this.security = security;
         }
 
-        public Builder date(LocalDate date) {
-            this.date = date;
-            return this;
-        }
-
-        public Builder time(LocalTime time) {
-            this.time = time;
+        public Builder dateTime(LocalDateTime dateTime) {
+            this.dateTime = dateTime;
             return this;
         }
 
@@ -47,7 +41,7 @@ public abstract class Deal {
             return this;
         }
 
-        public Builder operation(long amount) {
+        public Builder amount(long amount) {
             this.amount = amount;
             return this;
         }
@@ -91,8 +85,7 @@ public abstract class Deal {
             } else {
                 throw new IllegalStateException("Unknown type of Security");
             }
-            deal.setDate(date);
-            deal.setTime(time);
+            deal.setDateTime(dateTime);
             deal.setOperation(operation);
             deal.setAmount(amount);
             deal.setVolume(volume);
@@ -114,20 +107,12 @@ public abstract class Deal {
         return dealNumber;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public TradeOperation getOperation() {

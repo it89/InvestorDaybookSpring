@@ -12,6 +12,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class ImportXMLOpenBroker {
     private XPathFactory pathFactory = XPathFactory.newInstance();
@@ -64,31 +68,50 @@ public class ImportXMLOpenBroker {
         XPathExpression expr = xpath.compile("//spot_main_deals_conclusion/item");
         NodeList nodes = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
 
-        /*for (int i = 0; i < nodes.getLength(); i++) {
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node n = nodes.item(i);
             NamedNodeMap nodeMap = n.getAttributes();
 
-            String securityType = nodeMap.getNamedItem("security_name").getTextContent().trim();
-            Security security = SecurityStock.getStockByCaption(securityType);
-            if (security == null) {
-                // TODO: Лучше идентифизировать по коду, а не по тикуру или названию. Для этого нужно переделать Security
-                // TODO: Уже добавили код GRN, но для GDR его нет и придется определять по наименованию
-                security = SecurityBond.getBondByCaption(securityType);
-                if (security == null) {
-                    throw new XPathExpressionException("Not valid XML");
-                }
+            Security security;
+            Node securityGRNCode = nodeMap.getNamedItem("security_grn_code");
+            if (securityGRNCode != null) {
+                security = Security.findByCodeGRN(securityGRNCode.getTextContent());
+            } else {
+                String securityCaption = nodeMap.getNamedItem("security_name").getTextContent();
+                security = Security.findByCaption(securityCaption);
             }
 
             String dealNumber = nodeMap.getNamedItem("deal_no").getTextContent();
-            Deal deal;
-            if (security instanceof SecurityStock) {
-                deal = new DealStock((SecurityStock) security, dealNumber);
+            LocalDateTime dateTime = LocalDateTime.parse(nodeMap.getNamedItem("conclusion_time").getTextContent());
+
+            long amount;
+            TradeOperation operation;
+            Node buyQnty = nodeMap.getNamedItem("buy_qnty");
+            if (buyQnty != null) {
+                operation = TradeOperation.BUY;
+                amount = Double.valueOf(buyQnty.getTextContent()).longValue();
             } else {
-                deal = new DealBond((SecurityBond) security, dealNumber);
+                operation = TradeOperation.SELL;
+                amount = Double.valueOf(nodeMap.getNamedItem("sell_qnty").getTextContent()).longValue();
             }
 
+            BigDecimal volume = new BigDecimal(nodeMap.getNamedItem("volume_currency").getTextContent());
+            BigDecimal commission = new BigDecimal(nodeMap.getNamedItem("broker_commission").getTextContent());
 
+            Deal.Builder builder = new Deal.Builder(dealNumber, security).dateTime(dateTime).operation(operation)
+                    .amount(amount).volume(volume).commission(commission);
 
-        }*/
+            if (security.getType() == SecurityType.STOCK) {
+                builder = builder.price(new BigDecimal(nodeMap.getNamedItem("price").getTextContent()));
+            } else if (security.getType() == SecurityType.BOND) {
+                builder = builder.pricePct(new BigDecimal(nodeMap.getNamedItem("price").getTextContent()));
+                builder = builder.accumulatedCouponYield(new BigDecimal(nodeMap.getNamedItem("nkd").getTextContent()));
+            } else {
+                throw new XPathExpressionException("Not valid XML");
+            }
+
+            Deal deal = builder.build();
+
+        }
     }
 }

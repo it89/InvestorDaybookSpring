@@ -46,8 +46,7 @@ public final class DealBond extends Deal {
                 ", security=" + security +
                 //", requestNumber='" + requestNumber + '\'' +
                 ", dealNumber='" + dealNumber + '\'' +
-                ", date=" + date +
-                ", time=" + time +
+                ", dateTime=" + dateTime +
                 ", operation=" + operation +
                 ", amount=" + amount +
                 ", volume=" + volume +
