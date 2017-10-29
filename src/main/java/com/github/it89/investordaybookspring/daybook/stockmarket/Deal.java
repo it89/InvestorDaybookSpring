@@ -161,4 +161,6 @@ public abstract class Deal {
     public int hashCode() {
         return dealNumber.hashCode();
     }
+
+    public abstract void save();
 }

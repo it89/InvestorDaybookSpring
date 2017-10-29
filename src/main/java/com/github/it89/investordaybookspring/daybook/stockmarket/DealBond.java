@@ -1,5 +1,9 @@
 package com.github.it89.investordaybookspring.daybook.stockmarket;
 
+import com.github.it89.investordaybookspring.dao.entities.DealEntity;
+import com.github.it89.investordaybookspring.dao.interfaces.DealDAO;
+import com.github.it89.investordaybookspring.main.Run;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,5 +56,12 @@ public final class DealBond extends Deal {
                 ", volume=" + volume +
                 ", commission=" + commission +
                 '}';
+    }
+
+    @Override
+    public void save() {
+        DealDAO dealDAO = Run.dealDAO;
+        DealEntity dealEntity = new DealEntity(this);
+        dealDAO.merge(dealEntity);
     }
 }

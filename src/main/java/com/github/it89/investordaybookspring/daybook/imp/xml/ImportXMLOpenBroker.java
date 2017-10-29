@@ -111,7 +111,7 @@ public class ImportXMLOpenBroker {
             }
 
             Deal deal = builder.build();
-
+            deal.save();
         }
     }
 }
