@@ -145,4 +145,18 @@ public class DealEntity {
     public void setAccumulatedCouponYield(BigDecimal accumulatedCouponYield) {
         this.accumulatedCouponYield = accumulatedCouponYield;
     }
+
+    public Deal toDeal() {
+        Security securityPOJO = security.toSecurity()  ;
+        Deal.Builder builder = new Deal.Builder(dealNumber, securityPOJO).dateTime(dateTime)
+                .operation(operation).amount(amount).volume(volume).commission(commission);
+        if (securityPOJO.getType() == SecurityType.STOCK) {
+            builder = builder.price(price);
+        } else if (securityPOJO.getType() == SecurityType.BOND) {
+            builder = builder.pricePct(pricePct).accumulatedCouponYield(accumulatedCouponYield);
+        } else {
+            throw new AssertionError("Unknown type of Security");
+        }
+        return builder.build();
+    }
 }

@@ -3,11 +3,16 @@ package com.github.it89.investordaybookspring.dao.impls;
 import com.github.it89.investordaybookspring.dao.entities.DealEntity;
 import com.github.it89.investordaybookspring.dao.entities.SecurityEntity;
 import com.github.it89.investordaybookspring.dao.interfaces.DealDAO;
+import com.github.it89.investordaybookspring.dao.interfaces.SecurityDAO;
+import com.github.it89.investordaybookspring.daybook.stockmarket.Deal;
+import com.github.it89.investordaybookspring.daybook.stockmarket.Security;
+import com.github.it89.investordaybookspring.main.Run;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DealDAOImpl implements DealDAO {
@@ -62,5 +67,24 @@ public class DealDAOImpl implements DealDAO {
         tx.commit();
         session.close();
         return result;
+    }
+
+    @Override
+    public List<Deal> getListBySecurity(Security security) {
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        SecurityDAO securityDAO = Run.securityDAO;
+
+        SecurityEntity securityEntity = securityDAO.getEntityByISIN(security.getIsin());
+        Query query = session.createQuery("from DealEntity where security = :security_id").setString("security_id", Long.toString(securityEntity.getId()));
+        List<DealEntity> entityList = (List<DealEntity>) query.list();
+        List<Deal> dealList = new ArrayList<>();
+        for(DealEntity dealEntity : entityList) {
+            dealList.add(dealEntity.toDeal());
+        }
+
+        tx.commit();
+        session.close();
+        return dealList;
     }
 }
