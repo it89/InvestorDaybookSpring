@@ -70,6 +70,23 @@ public class DealDAOImpl implements DealDAO {
     }
 
     @Override
+    public List<Deal> getList() {
+        Session session = this.sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        Query query = session.createQuery("from DealEntity");
+        List<DealEntity> entityList = (List<DealEntity>) query.list();
+        List<Deal> dealList = new ArrayList<>();
+        for(DealEntity dealEntity : entityList) {
+            dealList.add(dealEntity.toDeal());
+        }
+
+        tx.commit();
+        session.close();
+        return dealList;
+    }
+
+    @Override
     public List<Deal> getListBySecurity(Security security) {
         Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();

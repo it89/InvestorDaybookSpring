@@ -10,5 +10,6 @@ import java.util.List;
 public interface DealDAO {
     public void merge(DealEntity entity);
     public DealEntity getEntityByNumber(String dealNumber);
+    public List<Deal> getList();
     public List<Deal> getListBySecurity(Security security);
 }

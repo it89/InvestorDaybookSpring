@@ -1,11 +1,16 @@
 package com.github.it89.investordaybookspring.daybook.stockmarket;
 
+import com.github.it89.investordaybookspring.dao.interfaces.DealDAO;
+import com.github.it89.investordaybookspring.main.Run;
+import org.jetbrains.annotations.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
-public abstract class Deal {
+public abstract class Deal implements Comparable<Deal> {
     protected Security security;
     protected final String dealNumber;
     protected LocalDateTime dateTime;
@@ -163,4 +168,19 @@ public abstract class Deal {
     }
 
     public abstract void save();
+
+    @Override
+    public int compareTo(@NotNull Deal o) {
+        return dealNumber.compareTo(o.dealNumber);
+    }
+
+    public static List<Deal> getList() {
+        DealDAO dealDAO = Run.dealDAO;
+        return dealDAO.getList();
+    }
+
+    public static List<Deal> getListBySecurity(Security security) {
+        DealDAO dealDAO = Run.dealDAO;
+        return dealDAO.getListBySecurity(security);
+    }
 }
